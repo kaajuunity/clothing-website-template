@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Brand</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: #000;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav ul li {
+            margin: 0 1rem;
+        }
+
+        .nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav ul li a:hover {
+            color: #f76c6c;
+        }
+
+        .cart-btn {
+            background: #f76c6c;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('img1.png') no-repeat center center/cover;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero .btn {
+            background: #f76c6c;
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .hero .btn:hover {
+            background: #ff8585;
+        }
+
+        /* Slideshow Section */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 60%;
+            height: 100%;
+            object-fit: cover;
+            float: left;
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+        }
+
+        .slide-content {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(120deg, #ffffff, #f9f9f9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .slide-content h3 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .slide-content p {
+            font-size: 1.5rem;
+            color: #f76c6c;
+            margin-bottom: 2rem;
+        }
+
+        .slide-content .btn {
+            background: #f76c6c;
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .slide-content .btn:hover {
+            background: #ff8585;
+        }
+
+        /* Additional Sections */
+        section {
+            padding: 4rem 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.7s ease-in-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about,
+        .instagram,
+        .blogs,
+        .reviews {
+            background: #f9f9f9;
+        }
+
+        .about h2,
+        .instagram h2,
+        .blogs h2,
+        .reviews h2 {
+            margin-bottom: 1rem;
+        }
+
+        .instagram a {
+            color: #f76c6c;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .instagram a:hover {
+            text-decoration: underline;
+        }
+
+        .brand-name {
+        font-size: 4rem;
+        font-weight: bold;
+        position: relative;
+        color: #fff; /* Main text color */
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        animation: glitch 1s infinite;
+    }
+
+    .brand-name::before,
+    .brand-name::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: #fff; /* Main color for glitch effect */
+        background: transparent;
+        overflow: hidden;
+    }
+
+    .brand-name::before {
+        left: -3px;
+        text-shadow: 2px 0px 0px #ffffff;
+        animation: glitchTop 0.5s infinite;
+    }
+
+    .brand-name::after {
+        left: 3px;
+        text-shadow: -2px 0px 0px #00ffff;
+        animation: glitchBottom 0.5s infinite;
+    }
+
+    /* Glitch Animation */
+    @keyframes glitch {
+        0% {
+            transform: translate(0);
+        }
+        20% {
+            transform: translate(3px, 2px);
+        }
+        40% {
+            transform: translate(-3px, -2px);
+        }
+        60% {
+            transform: translate(4px, -4px);
+        }
+        80% {
+            transform: translate(-4px, 4px);
+        }
+        100% {
+            transform: translate(0);
+        }
+    }
+
+    /* Top Glitch Animation (White) */
+    @keyframes glitchTop {
+        0% {
+            clip-path: inset(0 0 50% 0);
+        }
+        50% {
+            clip-path: inset(5% 0 45% 0);
+        }
+        100% {
+            clip-path: inset(0 0 50% 0);
+        }
+    }
+
+    /* Bottom Glitch Animation (Blue-White) */
+    @keyframes glitchBottom {
+        0% {
+            clip-path: inset(50% 0 0 0);
+        }
+        50% {
+            clip-path: inset(45% 0 5% 0);
+        }
+        100% {
+            clip-path: inset(50% 0 0 0);
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">BrandName</div>
+        <nav class="nav">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Shop</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="cart-btn">Cart</button>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <!-- Add glitch text here -->
+            <div class="brand-name" data-text="BrandName">BrandName</div>
+            <h1>Discover Your Style</h1>
+            <p>Trendy. Affordable. Unique.<br></p></br>
+            <a href="#slideshow" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Slideshow Section -->
+    <div id="slideshow" class="slideshow-container">
+        <div class="slide active">
+            <img src="img2.png" alt="Classic T-Shirt">
+            <div class="slide-content">
+                <h3>Classic T-Shirt</h3>
+                <p>₹2500</p>
+                <a href="#" class="btn">Add to Cart</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="img3.png" alt="Denim Jacket">
+            <div class="slide-content">
+                <h3>Denim Jacket</h3>
+                <p>₹2600</p>
+                <a href="#" class="btn">Add to Cart</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="img4.png" alt="Summer Dress">
+            <div class="slide-content">
+                <h3>Summer Dress</h3>
+                <p>₹1500</p>
+                <a href="#" class="btn">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>About Our Brand</h2>
+        <p>We believe in empowering individuals through stylish, sustainable fashion.</p>
+    </section>
+
+    <!-- Instagram Section -->
+    <section id="instagram" class="instagram">
+        <h2>Follow Us on Instagram</h2>
+        <a href="https://instagram.com" target="_blank">@BrandName</a>
+    </section>
+
+    <!-- Blogs Section -->
+    <section id="blogs" class="blogs">
+        <h2>Our Blogs</h2>
+        <p>Stay tuned for the latest trends and fashion tips.</p>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews">
+        <h2>Customer Reviews</h2>
+        <p>"Absolutely loved the collection! Great quality and service." - Jane Doe</p>
+    </section>
+
+    <script>
+        // Smooth Scroll for Shop Now Button
+        document.querySelector('.hero .btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector('#slideshow').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Scroll Animation
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        sections.forEach((section) => observer.observe(section));
+
+        // Slideshow Animation
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlides() {
+            slides.forEach((slide) => {
+                slide.classList.remove('active');
+            });
+
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+
+            slides[slideIndex - 1].classList.add('active');
+            setTimeout(showSlides, 4000); // Change slide every 4 seconds
+        }
+
+        showSlides(); // Initial call to start the slideshow
+    </script>
+</body>
+</html>
